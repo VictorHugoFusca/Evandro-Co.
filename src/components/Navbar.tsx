@@ -21,137 +21,158 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const Navbar: React.FC = () => {
-    const [active, setActive] = useState(false);
-    const [activeLink, setActiveLink] = useState<string>(''); // Estado para o link ativo
-    const [user, setUser] = useState<any>(null); // Estado para o usuário autenticado
+  const [active, setActive] = useState(false);
+  const [activeLink, setActiveLink] = useState<string>(''); // Estado para o link ativo
+  const [user, setUser] = useState<any>(null); // Estado para o usuário autenticado
 
-    const isActive = () => {
-        setActive(window.scrollY > 0);
-    };
+  const isActive = () => {
+    setActive(window.scrollY > 0);
+  };
 
-    const checkActiveLink = () => {
-        const scrollY = window.scrollY;
+  const checkActiveLink = () => {
+    const scrollY = window.scrollY;
 
-        constants.NAVLINKS.forEach(({ path }) => {
-            const target = document.querySelector(path);
-            if (target) {
-                const targetPosition = target.getBoundingClientRect();
-                const isInViewport = (
-                    targetPosition.top <= window.innerHeight &&
-                    targetPosition.bottom >= 0
-                );
+    constants.NAVLINKS.forEach(({ path }) => {
+      const target = document.querySelector(path);
+      if (target) {
+        const targetPosition = target.getBoundingClientRect();
+        const isInViewport = (
+          targetPosition.top <= window.innerHeight &&
+          targetPosition.bottom >= 0
+        );
 
-                if (isInViewport) {
-                    setActiveLink(path); // Atualiza o link ativo se estiver na viewport
-                }
-            }
-        });
-
-        // Se no topo da página, limpa o link ativo para ""
-        if (scrollY === 0) {
-            setActiveLink(''); // Limpa o link ativo
+        if (isInViewport) {
+          setActiveLink(path); // Atualiza o link ativo se estiver na viewport
         }
+      }
+    });
+
+    // Se no topo da página, limpa o link ativo para ""
+    if (scrollY === 0) {
+      setActiveLink(''); // Limpa o link ativo
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", isActive);
+    window.addEventListener("scroll", checkActiveLink); // Adiciona verificação do link ativo na rolagem
+
+    return () => {
+      window.removeEventListener("scroll", isActive);
+      window.removeEventListener("scroll", checkActiveLink);
     };
+  }, []);
 
-    useEffect(() => {
-        window.addEventListener("scroll", isActive);
-        window.addEventListener("scroll", checkActiveLink); // Adiciona verificação do link ativo na rolagem
+  const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string, title: string) => {
+    event.preventDefault(); // Previne o comportamento padrão do link
+    const target = document.querySelector(targetId);
+    if (target) {
+      let offset = 70; // Ajuste padrão
 
-        return () => {
-            window.removeEventListener("scroll", isActive);
-            window.removeEventListener("scroll", checkActiveLink);
-        };
-    }, []);
+      // Ajuste específico para "Sobre Nós"
+      if (title === "Sobre Nós") {
+        offset = -25; // Ajuste para um valor maior se necessário
+      }
 
-    const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string, title: string) => {
-        event.preventDefault(); // Previne o comportamento padrão do link
-        const target = document.querySelector(targetId);
-        if (target) {
-            let offset = 70; // Ajuste padrão
+      const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - offset;
 
-            // Ajuste específico para "Sobre Nós"
-            if (title === "Sobre Nós") {
-                offset = -25; // Ajuste para um valor maior se necessário
-            }
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
 
-            const elementPosition = target.getBoundingClientRect().top + window.scrollY;
-            const offsetPosition = elementPosition - offset;
+      setActiveLink(targetId); // Atualiza o link ativo após o clique
+    }
+  };
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
+  const handleLogoClick = (event: React.MouseEvent<HTMLImageElement>) => {
+    event.preventDefault(); // Previne o comportamento padrão se necessário
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" // Rolagem suave para o topo
+    });
+    setActiveLink(''); // Limpa o link ativo ao voltar ao topo
+  };
 
-            setActiveLink(targetId); // Atualiza o link ativo após o clique
-        }
-    };
+  // Função de login
+  const handleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user); // Verifique se o user.photoURL está sendo retornado
+      setUser(user);
+    } catch (error) {
+      console.error("Error during sign in:", error);
+    }
+  };
 
-    const handleLogoClick = (event: React.MouseEvent<HTMLImageElement>) => {
-        event.preventDefault(); // Previne o comportamento padrão se necessário
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth" // Rolagem suave para o topo
-        });
-        setActiveLink(''); // Limpa o link ativo ao voltar ao topo
-    };
+  // Função para extrair as iniciais do nome e sobrenome
+  const getInitials = (displayName: string) => {
+    const names = displayName.split(' ');
+    const initials = names[0].charAt(0) + (names[1] ? names[1].charAt(0) : '');
+    return initials.toUpperCase();
+  };
 
-    // Função de login
-    const handleLogin = async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            setUser(user);
-        } catch (error) {
-            console.error("Error during sign in:", error);
-        }
-    };
+  // Gera uma cor de fundo aleatória
+  const getRandomColor = () => {
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FF5733', '#FFBD33'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  };
 
-    return (
-        <div className={`hidden md:flex w-full h-24 bg-blue-100 sticky top-0 z-30 ${active && "bg-white border-b border-slate-300"}`}>
-            <div className='w-[1400px] mx-auto h-24 px-5 flex items-center justify-between'>
-                <img 
-                    src={logo} 
-                    alt="AstraSoft Logo" 
-                    className='h-14 cursor-pointer' // Adiciona um cursor pointer para indicar que é clicável
-                    onClick={handleLogoClick} // Chama a função ao clicar na logo
-                />
+  return (
+    <div className={`hidden md:flex w-full h-24 bg-blue-100 sticky top-0 z-30 ${active && "bg-white border-b border-slate-300"}`}>
+      <div className='w-[1400px] mx-auto h-24 px-5 flex items-center justify-between'>
+        <img 
+          src={logo} 
+          alt="AstraSoft Logo" 
+          className='h-14 cursor-pointer' // Adiciona um cursor pointer para indicar que é clicável
+          onClick={handleLogoClick} // Chama a função ao clicar na logo
+        />
 
-                <div className='hidden md:flex items-center gap-6'>
-                    {constants.NAVLINKS.map(({ path, title }) => {
-                        return (
-                            <a
-                                key={title}
-                                href={path}
-                                onClick={(event) => handleSmoothScroll(event, path, title)} // Passando o título do link
-                                className={`font-medium text-[15px] px-2.5 transition-all ${activeLink === path ? 'text-blue-700' : 'hover:text-blue-700'}`} // Altera a cor com base no estado
-                            >
-                                {title}
-                            </a>
-                        );
-                    })}
-                </div>
-
-                <div className='flex items-center gap-5'>
-                    {user ? (
-                        <div className='flex items-center gap-2'>
-                            <span className='text-blue-600 font-semibold'>{user.displayName}</span>
-                            {user.photoURL && (
-                                <img 
-                                    src={user.photoURL} 
-                                    alt="User Profile" 
-                                    className='w-8 h-8 rounded-full'
-                                />
-                            )}
-                        </div>
-                    ) : (
-                        <button onClick={handleLogin} className='text-blue-600 font-semibold hover:text-gray-900 transition-all'>
-                            Log in →
-                        </button>
-                    )}
-                </div>
-            </div>
+        <div className='hidden md:flex items-center gap-6'>
+          {constants.NAVLINKS.map(({ path, title }) => {
+            return (
+              <a
+                key={title}
+                href={path}
+                onClick={(event) => handleSmoothScroll(event, path, title)} // Passando o título do link
+                className={`font-medium text-[15px] px-2.5 transition-all ${activeLink === path ? 'text-blue-700' : 'hover:text-blue-700'}`} // Altera a cor com base no estado
+              >
+                {title}
+              </a>
+            );
+          })}
         </div>
-    );
+
+        <div className='flex items-center gap-5'>
+          {user ? (
+            <div className='flex items-center gap-2'>
+              <span className='text-blue-600 font-semibold'>{user.displayName}</span>
+              {user.photoURL ? (
+                <img 
+                  src={user.photoURL} 
+                  alt="User Profile" 
+                  className='w-8 h-8 rounded-full'
+                />
+              ) : (
+                <div 
+                  className='w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold' 
+                  style={{ backgroundColor: getRandomColor() }}
+                >
+                  {getInitials(user.displayName)}
+                </div>
+              )}
+            </div>
+          ) : (
+            <button onClick={handleLogin} className='text-blue-600 font-semibold hover:text-gray-900 transition-all'>
+              Log in →
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Navbar;
