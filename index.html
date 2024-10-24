@@ -7,8 +7,18 @@
 
     <!-- Código de ativação do Leadster -->
     <script>(function(a,b,c,d){try{var e=b.head||b.getElementsByTagName("head")[0];var f=b.createElement("script");f.setAttribute("src",c);f.setAttribute("charset","UTF-8");f.defer=true;a.neuroleadId=d;e.appendChild(f)}catch(g){}})(window,document,"https://cdn.leadster.com.br/neurolead/neurolead.min.js","ndCWWwgmFefQ6m2zZkuX2uZoz")</script>
-    <script type="module" crossorigin src="/Evandro-Co./assets/index-6H5071nu.js"></script>
-    <link rel="stylesheet" crossorigin href="/Evandro-Co./assets/index-BO8CaCsL.css">
+
+    <!-- Estilos para garantir que o widget apareça no canto inferior direito -->
+    <style>
+      .neurolead {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        z-index: 9999; /* Garante que o widget fique acima de outros elementos */
+      }
+    </style>
+    <script type="module" crossorigin src="/Evandro-Co./assets/index-CTpQNGPh.js"></script>
+    <link rel="stylesheet" crossorigin href="/Evandro-Co./assets/index-D1wynp7f.css">
   </head>
   <body>
     <div id="root"></div>
