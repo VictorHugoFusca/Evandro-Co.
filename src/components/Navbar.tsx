@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import constants from '../constants';
 import logo from '../assets/logos/testando (1).png'; // ajuste o caminho para sua imagem
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 // Configuração do Firebase
@@ -18,7 +17,6 @@ const firebaseConfig = {
 
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app); // Apenas se você precisar de analytics
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
