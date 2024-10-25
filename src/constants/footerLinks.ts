@@ -1,8 +1,8 @@
 const FOOTERLINKS = [
-    {title:"Terms", path:"/"},
-    {title:"Privacy", path:"/"},
-    {title:"About", path:"/"},
-    {title:"Contact", path:"/"},
+    {title:"Termos", path:"/"},
+    {title:"Privacidade", path:"/"},
+    {title:"Sobre", path:"/"},
+    {title:"Contato", path:"/"},
 ]
 
 export default FOOTERLINKS;

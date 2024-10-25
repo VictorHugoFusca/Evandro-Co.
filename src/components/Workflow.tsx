@@ -11,12 +11,6 @@ const Workflow: React.FC = () => {
                 <p className="leading-7 text-gray-600 md:max-w-[580px] max-w-[95%]">
                     A Evandro & Co. começou como um pequeno negócio com um grande propósito: resolver os problemas dos clientes com eficiência. Com a experiência acumulada ao longo dos anos, nossa equipe une o útil ao agradável, garantindo satisfação e proporcionando conforto e tranquilidade em cada lar que atendemos.
                 </p>
-                <a
-                    href="#"
-                    className="text-blue-600 font-semibold"
-                >
-                    Check the tools
-                </a>
             </div>
             <div className='flex-1 flex items-center gap-4 py-10 md:py-24 w-full md:justify-normal justify-center px-1'>
                 <img

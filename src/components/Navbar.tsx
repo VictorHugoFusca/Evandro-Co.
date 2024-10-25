@@ -71,8 +71,13 @@ const Navbar: React.FC = () => {
 
       // Ajuste específico para "Sobre Nós"
       if (title === "Sobre Nós") {
-        offset = -25; // Ajuste para um valor maior se necessário
+        offset = -21; // Ajuste para um valor maior se necessário
       }
+
+       // Ajuste específico para "Central de Ajuda"
+       if (title === "Central de Ajuda") {
+        offset = -100; // Ajuste para um valor maior se necessário
+    }
 
       const elementPosition = target.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - offset;
@@ -166,7 +171,7 @@ const Navbar: React.FC = () => {
             </div>
           ) : (
             <button onClick={handleLogin} className='text-blue-600 font-semibold hover:text-gray-900 transition-all'>
-              Log in →
+              Log in <span aria-hidden="true">&rarr;</span>
             </button>
           )}
         </div>
