@@ -158,7 +158,7 @@ const Navbar: React.FC = () => {
                 <img 
                   src={user.photoURL} 
                   alt="User Profile" 
-                  className='w-8 h-8 rounded-full'
+                  className='w-9 h-9 rounded-full'
                 />
               ) : (
                 <div 

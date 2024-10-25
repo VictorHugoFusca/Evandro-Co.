@@ -88,7 +88,7 @@ const MobileNavbar: React.FC = () => {
     };
 
     return (
-        <div className={`flex md:hidden w-full h-24 bg-blue-100 sticky top-0 z-30 ${active && "bg-white border-b border-slate-300"}`}>
+        <div className={`flex md:hidden w-full h-24 ${active ? 'bg-white border-b border-slate-300' : 'hero-gradient'} sticky top-0 z-30`}>
             <div className='w-[1400px] mx-auto h-24 px-5 flex items-center justify-between relative'>
                 <button type='button' onClick={toggleMobileMenu}>
                     <RxHamburgerMenu className='w-5 h-auto' />
@@ -121,21 +121,18 @@ const MobileNavbar: React.FC = () => {
 
                 <div className='flex items-center gap-5'>
                     {user ? (
-                        <div className='flex items-center gap-2'>
-                            <span className='text-blue-600 font-semibold'>{user.displayName}</span>
-                            {user.photoURL ? (
-                                <img
-                                    src={user.photoURL}
-                                    alt="User Profile"
-                                    className='w-8 h-8 rounded-full'
-                                    onError={(e) => { e.currentTarget.src = ''; }} // Define uma ação de fallback
-                                />
-                            ) : (
-                                <div className='flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full'>
-                                    {user.displayName?.charAt(0) + user.displayName?.split(' ')[1]?.charAt(0)} {/* Exibe iniciais */}
-                                </div>
-                            )}
-                        </div>
+                        user.photoURL ? (
+                            <img
+                                src={user.photoURL}
+                                alt="User Profile"
+                                className='w-12 h-12 rounded-full'
+                                onError={(e) => { e.currentTarget.src = ''; }} // Define uma ação de fallback
+                            />
+                        ) : (
+                            <div className='flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full'>
+                                {user.displayName?.charAt(0) + user.displayName?.split(' ')[1]?.charAt(0)} {/* Exibe iniciais */}
+                            </div>
+                        )
                     ) : (
                         <button onClick={handleLogin} className='text-[#282973] font-semibold'>
                             Log in <span aria-hidden="true">&rarr;</span>

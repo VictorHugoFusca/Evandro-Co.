@@ -21,18 +21,21 @@ const Hero: React.FC = () => {
 
     return (
         <div className='border-b border-slate-300 bg-blue-100'>
-            {/* CSS Personalizado para ocultar a imagem em resoluções menores que 766px */}
+            {/* CSS Personalizado para ocultar a imagem em resoluções menores que 766px e adicionar gradiente */}
             <style>
                 {`
                 @media (max-width: 767px) {
                     .hero-image {
                         display: none; /* Oculta a imagem */
                     }
+                    .hero-gradient {
+                        background: linear-gradient(to right, #e0ecfc, #b5d2f7, #9da3d2); /* Gradiente horizontal */
+                    }
                 }
                 `}
             </style>
             <div className="max-w-[1400px] mx-auto md:h-[70vh] h-auto flex md:flex-row flex-col items-center 
-            justify-between gap-8 md:px-24 px-8 box-border md:py-0 py-5">
+            justify-between gap-8 md:px-24 px-8 box-border md:py-0 py-5 hero-gradient">
                 <div className="flex flex-col gap-4">
                     <span className="text-5xl font-bold md:text-4xl leading-[65px] md:leading-[50px] lg:text-5xl xl:text-[45px] xl:leading-[82px] max-w-[650px] lg:leading-[65px] text-center md:text-left">
                         Conforto em Cada Instalação Seu Clima, Nossa Prioridade!
