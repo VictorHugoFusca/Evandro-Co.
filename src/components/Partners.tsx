@@ -10,7 +10,7 @@ const Partners: React.FC = () => {
         <section className="flex">
             <ul
                 className={`max-w-[1200px] mx-auto py-10 flex flex-wrap justify-between ${
-                    isMobile ? 'grid grid-cols-4 gap-10' : 'gap-5'
+                    isMobile ? 'grid grid-cols-4 gap-7' : 'gap-5'
                 }`} // Aplica gap-10 no mobile e gap-5 no desktop
             >
                 {Object.entries(constants.LOGOS).map(([key, value]) => (
